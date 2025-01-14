@@ -57,9 +57,4 @@ public class TripController {
         return ResponseEntity.ok(tripSvc.findByDestination(destination));
     }
 
-    @GetMapping("/count")
-    public ResponseEntity<Integer> count() {
-        return ResponseEntity.ok(tripSvc.count());
-    }
-
 }

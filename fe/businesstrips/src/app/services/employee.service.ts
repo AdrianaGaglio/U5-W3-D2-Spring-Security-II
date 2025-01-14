@@ -61,4 +61,8 @@ export class EmployeeService {
   search(name: string): Observable<iEmployee[]> {
     return this.http.get<iEmployee[]>(`${this.url}/search?name=${name}`);
   }
+
+  count(): Observable<number> {
+    return this.http.get<number>(`${this.url}/count`);
+  }
 }

@@ -75,4 +75,9 @@ public class ReservationController {
     public ResponseEntity<List<ReservationResponse>> findByDestinationAndDate(@RequestParam String destination, @RequestParam LocalDate date) {
         return ResponseEntity.ok(reservationSvc.findByDestinationAndDate(destination, date));
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Integer> count() {
+        return ResponseEntity.ok(reservationSvc.count());
+    }
 }

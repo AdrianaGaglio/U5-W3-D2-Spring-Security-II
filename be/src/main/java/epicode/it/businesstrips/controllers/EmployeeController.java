@@ -53,4 +53,9 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeSvc.findByFirstNameOrLastNameOrUsername(name), HttpStatus.OK);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Integer> count() {
+        return ResponseEntity.ok(employeeSvc.count());
+    }
+
 }

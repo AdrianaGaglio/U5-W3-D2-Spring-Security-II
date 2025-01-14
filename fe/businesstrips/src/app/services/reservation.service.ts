@@ -78,4 +78,8 @@ export class ReservationService {
       `${this.url}/search?destination=${destination}&date=${date}`
     );
   }
+
+  count(): Observable<number> {
+    return this.http.get<number>(`${this.url}/count`);
+  }
 }

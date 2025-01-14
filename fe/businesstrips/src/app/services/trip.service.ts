@@ -54,4 +54,8 @@ export class TripService {
       `${this.url}/search?destination=${destination}`
     );
   }
+
+  count(): Observable<number> {
+    return this.http.get<number>(`${this.url}/count`);
+  }
 }
