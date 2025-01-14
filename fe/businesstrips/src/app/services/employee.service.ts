@@ -57,4 +57,8 @@ export class EmployeeService {
       .put<iEmployee>(`${this.url}/${employee.id}`, employee)
       .pipe(tap((result) => this.getEmployees().subscribe()));
   }
+
+  search(name: string): Observable<iEmployee[]> {
+    return this.http.get<iEmployee[]>(`${this.url}/search?name=${name}`);
+  }
 }

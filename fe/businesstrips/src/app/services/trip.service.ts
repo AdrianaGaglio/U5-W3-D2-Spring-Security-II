@@ -48,4 +48,10 @@ export class TripService {
       .put<iTrip>(`${this.url}/${id}/update?status=${status}`, status)
       .pipe(tap((result) => this.getTrips().subscribe()));
   }
+
+  search(destination: string) {
+    return this.http.get<iTrip[]>(
+      `${this.url}/search?destination=${destination}`
+    );
+  }
 }

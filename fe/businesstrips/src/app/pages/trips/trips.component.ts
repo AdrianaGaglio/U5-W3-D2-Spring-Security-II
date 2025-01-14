@@ -18,6 +18,7 @@ export class TripsComponent {
   ) {}
 
   trips!: iTrip[];
+  destination: string = '';
 
   ngOnInit() {
     this.pageTitle.title.next('Manage trips');
@@ -30,5 +31,9 @@ export class TripsComponent {
   openModal(isTrip: boolean) {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
     modalRef.componentInstance.isTrip = isTrip;
+  }
+
+  search(destination: string) {
+    this.tripSvc.search(destination).subscribe((trips) => (this.trips = trips));
   }
 }

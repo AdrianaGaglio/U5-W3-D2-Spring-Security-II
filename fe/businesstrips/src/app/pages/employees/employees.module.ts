@@ -11,6 +11,7 @@ import {
   bootstrapListNested,
   bootstrapPlus,
 } from '@ng-icons/bootstrap-icons';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [EmployeesComponent],
@@ -18,6 +19,7 @@ import {
     CommonModule,
     EmployeesRoutingModule,
     CardModule,
+    FormsModule,
     NgIconsModule.withIcons({ bootstrapList, bootstrapGrid, bootstrapPlus }),
   ],
 })

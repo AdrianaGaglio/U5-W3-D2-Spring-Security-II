@@ -21,6 +21,7 @@ export class EmployeesComponent {
   page: number = 0;
   iterations: number[] = [];
   isGrid: boolean = true;
+  text: string = '';
 
   ngOnInit() {
     this.pageTitle.title.next('Manage employees');
@@ -53,5 +54,12 @@ export class EmployeesComponent {
   openModal(isEmployee: boolean) {
     const modalRef = this.modalService.open(ModalComponent, { centered: true });
     modalRef.componentInstance.isEmployee = isEmployee;
+  }
+
+  search(text: string) {
+    this.employeeSvc.search(text).subscribe((res) => {
+      this.employees = res;
+      this.isGrid = false;
+    });
   }
 }

@@ -1,6 +1,17 @@
 <div class="d-flex align-items-center justify-content-end p-3 gap-1 mb-3">
-  <form class="w-100 d-flex align-items-center gap-2">
-    <input type="text" class="form-control" placeholder="Search..." />
+  <form
+    class="w-100 d-flex align-items-center gap-2"
+    (submit)="search(destination)"
+  >
+    <input
+      (keyup)="search(destination)"
+      type="text"
+      class="form-control"
+      name="destination"
+      id="destination"
+      [(ngModel)]="destination"
+      placeholder="Search..."
+    />
     <button class="btn btn-success">
       <ng-icon name="bootstrapSearch"></ng-icon>
     </button>
