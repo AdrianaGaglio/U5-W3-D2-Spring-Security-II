@@ -92,7 +92,7 @@ public class TripSvc {
 
         Trip trip = new Trip();
         BeanUtils.copyProperties(request, trip);
-        trip=tripRepo.save(trip);
+        trip = tripRepo.save(trip);
 
         TripWithReservationResponse response = new TripWithReservationResponse();
         BeanUtils.copyProperties(trip, response);
@@ -106,11 +106,11 @@ public class TripSvc {
         trip.setDestination(request.getDestination() != null ? request.getDestination() : trip.getDestination());
         trip.setMaxCapacity(request.getMaxCapacity() > 0 ? request.getMaxCapacity() : trip.getMaxCapacity());
 
-        trip=tripRepo.save(trip);
+        trip = tripRepo.save(trip);
         TripWithReservationResponse response = new TripWithReservationResponse();
         BeanUtils.copyProperties(trip, response);
         List<ReservationNoTripResponse> reservations = new ArrayList<>();
-        for(Reservation r : trip.getReservations()) {
+        for (Reservation r : trip.getReservations()) {
             ReservationNoTripResponse reservationResponse = new ReservationNoTripResponse();
             BeanUtils.copyProperties(r, reservationResponse);
             reservationResponse.setEmployee(employeeSvc.getByIdResponse(r.getEmployee().getId()));
@@ -124,5 +124,24 @@ public class TripSvc {
         Trip trip = getById(id);
         trip.setStatus(TripStatus.valueOf(status.toUpperCase()));
         return tripRepo.save(trip);
+    }
+
+    public List<TripWithReservationResponse> findByDestination(String destination) {
+        List<Trip> trips = tripRepo.findByDestination(destination);
+        List<TripWithReservationResponse> response = new ArrayList<>();
+        for (Trip t : trips) {
+            TripWithReservationResponse tripResponse = new TripWithReservationResponse();
+            BeanUtils.copyProperties(t, tripResponse);
+            List<ReservationNoTripResponse> reservations = new ArrayList<>();
+            for (Reservation r : t.getReservations()) {
+                ReservationNoTripResponse reservationResponse = new ReservationNoTripResponse();
+                BeanUtils.copyProperties(r, reservationResponse);
+                reservationResponse.setEmployee(employeeSvc.getByIdResponse(r.getEmployee().getId()));
+                reservations.add(reservationResponse);
+            }
+            tripResponse.setReservations(reservations);
+            response.add(tripResponse);
+        }
+        return response;
     }
 }

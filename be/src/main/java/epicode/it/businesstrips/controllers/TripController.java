@@ -52,4 +52,9 @@ public class TripController {
         return ResponseEntity.ok(tripSvc.updateStatus(id, status));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<TripWithReservationResponse>> findByDestination(@RequestParam String destination) {
+        return ResponseEntity.ok(tripSvc.findByDestination(destination));
+    }
+
 }

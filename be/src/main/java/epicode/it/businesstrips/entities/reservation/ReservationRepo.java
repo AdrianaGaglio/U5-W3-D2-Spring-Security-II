@@ -16,8 +16,7 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
 
     public Reservation findFirstByTripAndEmployee(Trip trip, Employee employee);
 
-   List<Reservation> findByEmployeeOrderByRequestDateDesc(Employee employee);
-
+    List<Reservation> findByEmployeeOrderByRequestDateDesc(Employee employee);
 
     public Reservation findFirstById(Long id);
 

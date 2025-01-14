@@ -120,7 +120,7 @@ public class EmployeeSvc {
     }
 
     public List<EmployeeResponse> findByFirstNameOrLastNameOrUsername(String name) {
-        List<Employee> employees = employeeRepo.findByFirstNameOrLastNameOrUsername(name);
+        List<Employee> employees = employeeRepo.findByFirstNameOrLastNameOrUsername(name.toLowerCase());
         List<EmployeeResponse> response = new ArrayList<>();
         for (Employee e : employees) {
             EmployeeResponse employeeResponse = new EmployeeResponse();
