@@ -1,6 +1,9 @@
 package epicode.it.businesstrips.controllers;
 
 import epicode.it.businesstrips.entities.employee.*;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeCreateRequest;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeResponse;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;

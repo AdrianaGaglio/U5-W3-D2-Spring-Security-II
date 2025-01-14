@@ -1,9 +1,9 @@
 package epicode.it.businesstrips.controllers;
 
-import epicode.it.businesstrips.entities.employee.Employee;
-import epicode.it.businesstrips.entities.preference.PreferenceAddRequest;
+import epicode.it.businesstrips.entities.preference.dto.PreferenceAddRequest;
 import epicode.it.businesstrips.entities.reservation.*;
-import epicode.it.businesstrips.entities.trip.Trip;
+import epicode.it.businesstrips.entities.reservation.dto.ReservationCreateRequest;
+import epicode.it.businesstrips.entities.reservation.dto.ReservationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

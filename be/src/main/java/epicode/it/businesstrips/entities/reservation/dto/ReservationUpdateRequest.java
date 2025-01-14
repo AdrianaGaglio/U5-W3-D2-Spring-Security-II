@@ -1,6 +1,6 @@
-package epicode.it.businesstrips.entities.reservation;
+package epicode.it.businesstrips.entities.reservation.dto;
 
-import epicode.it.businesstrips.entities.preference.PreferenceCreateRequest;
+import epicode.it.businesstrips.entities.preference.dto.PreferenceCreateRequest;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

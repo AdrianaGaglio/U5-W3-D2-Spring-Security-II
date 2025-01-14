@@ -1,6 +1,7 @@
-package epicode.it.businesstrips.entities.trip;
+package epicode.it.businesstrips.entities.trip.dto;
 
-import epicode.it.businesstrips.entities.reservation.ReservationNoTripResponse;
+import epicode.it.businesstrips.entities.reservation.dto.ReservationNoTripResponse;
+import epicode.it.businesstrips.entities.trip.TripStatus;
 import lombok.Data;
 
 import java.time.LocalDate;

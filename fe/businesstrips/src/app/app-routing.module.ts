@@ -38,6 +38,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/trip/trip.module').then((m) => m.TripModule),
   },
+  { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
 ];
 
 @NgModule({

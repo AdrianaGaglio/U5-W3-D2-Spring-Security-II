@@ -6,3 +6,23 @@
 .fs-7 {
   font-size: 0.8rem;
 }
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+app-root,
+app-root > .container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+app-register,
+app-login {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}

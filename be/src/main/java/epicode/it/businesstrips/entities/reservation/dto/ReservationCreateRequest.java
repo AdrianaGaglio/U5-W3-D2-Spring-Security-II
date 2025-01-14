@@ -1,17 +1,11 @@
-package epicode.it.businesstrips.entities.reservation;
+package epicode.it.businesstrips.entities.reservation.dto;
 
-import epicode.it.businesstrips.entities.employee.Employee;
-import epicode.it.businesstrips.entities.preference.Preference;
-import epicode.it.businesstrips.entities.preference.PreferenceCreateRequest;
-import epicode.it.businesstrips.entities.preference.PreferenceType;
-import epicode.it.businesstrips.entities.trip.Trip;
-import jakarta.persistence.*;
+import epicode.it.businesstrips.entities.preference.dto.PreferenceCreateRequest;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

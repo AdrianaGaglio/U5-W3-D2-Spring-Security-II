@@ -1,6 +1,9 @@
 package epicode.it.businesstrips.entities.employee;
 
 import epicode.it.businesstrips.auth.appuser.AppUserRepo;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeCreateRequest;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeResponse;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeUpdateRequest;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;

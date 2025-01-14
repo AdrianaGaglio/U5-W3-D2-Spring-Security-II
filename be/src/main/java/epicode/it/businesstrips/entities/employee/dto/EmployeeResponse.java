@@ -1,7 +1,5 @@
-package epicode.it.businesstrips.entities.employee;
+package epicode.it.businesstrips.entities.employee.dto;
 
-import epicode.it.businesstrips.auth.appuser.AppUser;
-import jakarta.persistence.*;
 import lombok.Data;
 
 @Data

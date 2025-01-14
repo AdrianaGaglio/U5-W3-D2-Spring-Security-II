@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import epicode.it.businesstrips.auth.appuser.AppUserSvc;
 import epicode.it.businesstrips.auth.appuser.Role;
 import epicode.it.businesstrips.auth.dto.RegisterRequest;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.boot.ApplicationArguments;

@@ -1,9 +1,8 @@
 package epicode.it.businesstrips.auth.dto;
 
-import epicode.it.businesstrips.entities.employee.EmployeeCreateRequest;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeCreateRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

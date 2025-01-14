@@ -1,4 +1,4 @@
-package epicode.it.businesstrips.entities.preference;
+package epicode.it.businesstrips.entities.preference.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

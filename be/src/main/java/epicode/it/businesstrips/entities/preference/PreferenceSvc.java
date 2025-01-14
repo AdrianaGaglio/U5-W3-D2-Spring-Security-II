@@ -1,9 +1,7 @@
 package epicode.it.businesstrips.entities.preference;
 
-import epicode.it.businesstrips.entities.reservation.Reservation;
-import epicode.it.businesstrips.entities.reservation.ReservationSvc;
+import epicode.it.businesstrips.entities.preference.dto.PreferenceCreateRequest;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;

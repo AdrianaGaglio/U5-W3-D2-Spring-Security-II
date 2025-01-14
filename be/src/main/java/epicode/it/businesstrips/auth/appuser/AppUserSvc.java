@@ -1,11 +1,14 @@
 package epicode.it.businesstrips.auth.appuser;
 
 import epicode.it.businesstrips.auth.configurations.PwdEncoder;
+import epicode.it.businesstrips.auth.dto.AuthResponse;
 import epicode.it.businesstrips.auth.dto.LoginRequest;
 import epicode.it.businesstrips.auth.dto.RegisterRequest;
 import epicode.it.businesstrips.auth.jwt.JwtTokenUtil;
-import epicode.it.businesstrips.entities.employee.EmployeeCreateRequest;
+import epicode.it.businesstrips.entities.employee.Employee;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeCreateRequest;
 import epicode.it.businesstrips.entities.employee.EmployeeSvc;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeResponse;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -91,7 +94,7 @@ public class AppUserSvc {
 //     * @param password La password.
 //     * @return Un token JWT valido.
 //     */
-    public String authenticateUser(@Valid LoginRequest request) {
+    public AuthResponse authenticateUser(@Valid LoginRequest request) {
         try {
 
             if ((request.getUsername() == null || request.getUsername().isEmpty()) && request.getEmail() != null) {
@@ -100,15 +103,21 @@ public class AppUserSvc {
                 request.setUsername(found.getUsername());
             }
 
+            if (request.getUsername() == null || request.getUsername().isEmpty()) throw new EntityNotFoundException("User not found");
+
             // Crea un token di autenticazione e prova ad autenticare l'utente.
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
 
+            String text = request.getUsername() != null ? request.getUsername() : request.getEmail();
+            EmployeeResponse user = employeeSvc.findByFirstNameOrLastNameOrUsername(text).getFirst();
+
             // Recupera i dettagli dell'utente autenticato.
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             // Genera un token JWT per l'utente autenticato.
-            return jwtTokenUtil.generateToken(userDetails);
+
+            return new AuthResponse(jwtTokenUtil.generateToken(userDetails), user);
         } catch (AuthenticationException e) {
             // Lancia un'eccezione di sicurezza se l'autenticazione fallisce.
             throw new SecurityException("Credenziali non valide", e);

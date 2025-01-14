@@ -1,6 +1,5 @@
-package epicode.it.businesstrips.entities.employee;
+package epicode.it.businesstrips.entities.employee.dto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

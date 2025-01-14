@@ -1,6 +1,9 @@
 package epicode.it.businesstrips.controllers;
 
 import epicode.it.businesstrips.entities.trip.*;
+import epicode.it.businesstrips.entities.trip.dto.TripCreateRequest;
+import epicode.it.businesstrips.entities.trip.dto.TripUpdateRequest;
+import epicode.it.businesstrips.entities.trip.dto.TripWithReservationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;

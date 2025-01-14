@@ -1,6 +1,6 @@
-package epicode.it.businesstrips.entities.trip;
+package epicode.it.businesstrips.entities.trip.dto;
 
-import jakarta.persistence.*;
+import epicode.it.businesstrips.entities.trip.TripStatus;
 import lombok.Data;
 
 import java.time.LocalDate;

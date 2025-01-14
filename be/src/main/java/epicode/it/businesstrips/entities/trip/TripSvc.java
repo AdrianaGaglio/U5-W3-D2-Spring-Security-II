@@ -2,13 +2,15 @@ package epicode.it.businesstrips.entities.trip;
 
 import epicode.it.businesstrips.entities.employee.EmployeeSvc;
 import epicode.it.businesstrips.entities.reservation.Reservation;
-import epicode.it.businesstrips.entities.reservation.ReservationNoTripResponse;
+import epicode.it.businesstrips.entities.reservation.dto.ReservationNoTripResponse;
+import epicode.it.businesstrips.entities.trip.dto.TripCreateRequest;
+import epicode.it.businesstrips.entities.trip.dto.TripUpdateRequest;
+import epicode.it.businesstrips.entities.trip.dto.TripWithReservationResponse;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

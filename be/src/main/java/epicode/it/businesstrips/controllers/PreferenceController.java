@@ -1,11 +1,7 @@
 package epicode.it.businesstrips.controllers;
 
 import epicode.it.businesstrips.entities.preference.Preference;
-import epicode.it.businesstrips.entities.preference.PreferenceAddRequest;
-import epicode.it.businesstrips.entities.preference.PreferenceCreateRequest;
 import epicode.it.businesstrips.entities.preference.PreferenceSvc;
-import epicode.it.businesstrips.entities.reservation.Reservation;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
