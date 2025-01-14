@@ -1,0 +1,14 @@
+<div class="mt-3">
+  <h1 class="mb-3">Trip details</h1>
+  <div *ngIf="trip" class="mb-3">
+    <app-trip-hor-card [trip]="trip"></app-trip-hor-card>
+  </div>
+  <div *ngIf="reservations && reservations.length > 0">
+    <h3>Trip reservations</h3>
+    <div class="row">
+      <div class="col-12" *ngFor="let res of trip.reservations">
+        <app-res-card [reservation]="res" [trip]="trip"></app-res-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<div
+  class="custom-modal w-100 p-3 d-flex align-items-center justify-content-center"
+>
+  <form class="w-100">
+    <h5 class="mb-3">
+      {{ reservation.id ? "Update reservation info" : "Add new reservation" }}
+    </h5>
+    <div class="mb-3" *ngIf="trips && trips.length > 0">
+      <label for="trip" class="form-label">Trip:</label>
+      <select
+        name="tripId"
+        id="tripId"
+        class="form-select"
+        [(ngModel)]="tripId"
+        [disabled]="reservation.id || trip ? true : false"
+      >
+        <option value="">-- select trip --</option>
+        <option [value]="trip.id" *ngFor="let trip of trips">
+          Destination: {{ trip.destination | titlecase }} - Date:
+          {{ trip.date }}
+        </option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="employeeId" class="form-label">Employee: </label>
+      <select
+        class="form-select"
+        name="employeeId"
+        [(ngModel)]="employeeId"
+        id="employeeId"
+        [disabled]="reservation.id ? true : false"
+      >
+        <option value="">-- select employee --</option>
+        <option [value]="employee.id" *ngFor="let employee of employees">
+          {{ employee.firstName | titlecase }}
+          {{ employee.lastName | titlecase }} - Username:
+          {{ employee.username }}
+        </option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="preferences" class="form-label">{{
+        reservation.id ? "Add trip preferences" : "Trip preferences:"
+      }}</label>
+      <select
+        (change)="addPreference($event)"
+        name="preferences"
+        id="preferences"
+        class="form-select"
+        [disabled]="reservation.id && newPreferences.length == 1 ? true : false"
+      >
+        <option value="">-- select preference --</option>
+        <option [value]="preference" *ngFor="let preference of tripPreferences">
+          {{ preference }}
+        </option>
+      </select>
+    </div>
+    <div class="mb-3" *ngIf="newPreferences && newPreferences.length > 0">
+      <div
+        class="row align-items-center"
+        *ngFor="let preference of newPreferences"
+      >
+        <div class="col">
+          <p>Type:</p>
+          <p class="mb-0">{{ preference.type }}</p>
+        </div>
+        <div class="col">
+          <label for="name" class="form-label">Name:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="name"
+            id="name"
+            [(ngModel)]="preference.name"
+          />
+        </div>
+        <div class="col">
+          <label for="location" class="form-label">Location:</label>
+          <input
+            class="form-control"
+            type="text"
+            name="location"
+            id="location"
+            [(ngModel)]="preference.location"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center gap-1">
+      <button
+        class="btn btn-success"
+        (click)="addReservation()"
+        *ngIf="!reservation.id"
+      >
+        Add
+      </button>
+      <button class="btn btn-success" (click)="save()" *ngIf="reservation.id">
+        Save
+      </button>
+      <button class="btn btn-primary" (click)="close()">Close</button>
+    </div>
+  </form>
+</div>

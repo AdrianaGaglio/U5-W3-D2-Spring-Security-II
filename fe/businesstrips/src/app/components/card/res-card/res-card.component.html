@@ -1,0 +1,72 @@
+<div class="card flex-row" *ngIf="reservation">
+  <div class="card-body d-flex flex-column justify-content-center">
+    <h5 class="card-title mb-3">Request date: {{ reservation.requestDate }}</h5>
+    <h6
+      class="mb-3"
+      role="button"
+      *ngIf="reservation.trip"
+      [routerLink]="['/trip', reservation.trip.id]"
+    >
+      Trip info:
+      {{ reservation.trip.destination | titlecase }}
+
+      -
+      {{ reservation.trip.date }}
+    </h6>
+    <h6
+      class="mb-3"
+      role="button"
+      *ngIf="!reservation.trip"
+      [routerLink]="['/trip', trip.id]"
+    >
+      Trip info:
+      {{ trip.destination | titlecase }}
+
+      -
+
+      {{ trip.date }}
+    </h6>
+    <div class="mb-3">
+      <p class="mb-0 fw-bold">Employee info:</p>
+
+      <p
+        class="mb-0"
+        [routerLink]="['/employee', reservation.employee.id]"
+        role="button"
+      >
+        Name: {{ reservation.employee.firstName | titlecase }}
+        {{ reservation.employee.lastName | titlecase }}
+      </p>
+
+      <p class="mb-0">Username: {{ reservation.employee.username }}</p>
+      <p class="mb-0">Email: {{ reservation.employee.email }}</p>
+    </div>
+    <ng-content
+      *ngIf="reservation.preferences && reservation.preferences.length > 0"
+    >
+      <h5>Preferences:</h5>
+      <ul>
+        <li *ngFor="let p of reservation.preferences">
+          {{ p.type }}: {{ p.name }} - {{ p.location }}
+        </li>
+      </ul>
+    </ng-content>
+  </div>
+  <div class="d-flex flex-column justify-content-evenly p-1">
+    <button
+      *ngIf="!isTrip"
+      class="btn btn-primary"
+      (click)="openModal(reservation)"
+    >
+      Manage reservation
+    </button>
+    <button
+      *ngIf="isTrip"
+      class="btn btn-primary"
+      (click)="openModalWithTrip(reservation, trip)"
+    >
+      Manage reservation
+    </button>
+    <button class="btn btn-danger" (click)="delete(reservation)">Delete</button>
+  </div>
+</div>

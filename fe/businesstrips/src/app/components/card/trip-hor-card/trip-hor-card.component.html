@@ -1,0 +1,46 @@
+<div class="card flex-row">
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ trip.destination | titlecase }}
+    </h5>
+    <span>Trip date: </span>
+    <p class="card-text fs-7">{{ trip.date }}</p>
+    <p class="card-text fs-7">
+      <span>Max capacity: </span> {{ trip.maxCapacity }}
+    </p>
+    <span>Status: </span>
+    <p
+      class="card-text fs-7 fw-bold"
+      role="button"
+      (click)="enableChange()"
+      *ngIf="!editStatus"
+      [ngClass]="{
+        'text-success': trip.status === 'COMPLETED',
+        'text-danger': trip.status === 'CANCELLED',
+        'text-warning': trip.status === 'PLANNED'
+      }"
+    >
+      {{ trip.status }}
+    </p>
+    <select
+      name="status"
+      id="status"
+      class="form-select"
+      *ngIf="editStatus"
+      (change)="changeStatus($event)"
+    >
+      <option [value]="s" *ngFor="let s of tripStatus">
+        {{ s }}
+      </option>
+    </select>
+  </div>
+  <div class="d-flex flex-column justify-content-evenly mt-2 p-1">
+    <button (click)="openModalRes(trip)" class="btn btn-primary">
+      Add reservation
+    </button>
+    <button class="btn btn-warning text-light" (click)="openModal(trip)">
+      Edit trip
+    </button>
+    <button class="btn btn-danger" (click)="delete(trip)">Delete trip</button>
+  </div>
+</div>

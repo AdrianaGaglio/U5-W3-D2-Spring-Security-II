@@ -1,0 +1,19 @@
+<div class="d-flex align-items-center justify-content-end p-3 gap-1 mb-3">
+  <form class="w-100 d-flex align-items-center gap-2">
+    <input type="text" class="form-control" placeholder="Search..." />
+    <button class="btn btn-success">
+      <ng-icon name="bootstrapSearch"></ng-icon>
+    </button>
+  </form>
+  <div>
+    <button class="btn btn-warning" (click)="openModal(true)">
+      <ng-icon name="bootstrapPlus"></ng-icon>
+    </button>
+  </div>
+</div>
+
+<div class="row gap-1 flex-column">
+  <div class="col-12" *ngFor="let r of reservations">
+    <app-res-card [reservation]="r"></app-res-card>
+  </div>
+</div>

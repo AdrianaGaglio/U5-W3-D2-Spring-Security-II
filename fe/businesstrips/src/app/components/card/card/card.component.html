@@ -1,0 +1,23 @@
+<div class="card">
+  <img [src]="employee.image" class="profile card-img-top" />
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ employee.firstName | titlecase }} {{ employee.lastName | titlecase }}
+    </h5>
+    <span>Username: </span>
+    <p class="card-text fs-7">{{ employee.username }}</p>
+    <span>Email: </span>
+    <p class="card-text fs-7">{{ employee.email }}</p>
+    <div class="d-flex justify-content-evenly">
+      <a class="btn btn-primary" [routerLink]="['/employee', employee.id]">
+        <ng-icon name="bootstrapSearch"></ng-icon>
+      </a>
+      <button class="btn btn-warning text-light" (click)="openModal(employee)">
+        <ng-icon name="bootstrapPencil"></ng-icon>
+      </button>
+      <button class="btn btn-danger" (click)="delete(employee)">
+        <ng-icon name="bootstrapTrash"></ng-icon>
+      </button>
+    </div>
+  </div>
+</div>

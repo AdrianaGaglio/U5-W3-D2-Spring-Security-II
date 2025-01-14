@@ -1,0 +1,142 @@
+<div
+  class="custom-modal w-100 p-3 d-flex align-items-center justify-content-center"
+>
+  <form class="w-100" *ngIf="isEmployee">
+    <h5 class="mb-3">
+      {{ employee.id ? "Update employee info" : "Add new employee" }}
+    </h5>
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First name:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="firstName"
+        name="firstName"
+        [(ngModel)]="employee.firstName"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last name:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="lastName"
+        name="lastName"
+        [(ngModel)]="employee.lastName"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="username" class="form-label">Username:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        name="username"
+        [(ngModel)]="employee.username"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        [(ngModel)]="employee.email"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="image" class="form-label">Profile image:</label>
+      <input
+        type="file"
+        class="form-control"
+        id="image"
+        name="image"
+        accept="image/png, image/jpeg"
+        (change)="onFileSelected($event)"
+      />
+    </div>
+    <div class="d-flex align-items-center gap-1">
+      <button
+        type="button"
+        class="btn btn-success"
+        *ngIf="employee.id"
+        (click)="save()"
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        *ngIf="!employee.id"
+        (click)="addEmployee()"
+      >
+        Add
+      </button>
+      <button class="btn btn-primary" (click)="close()">Close</button>
+    </div>
+  </form>
+
+  <form class="w-100" *ngIf="isTrip">
+    <h5 class="mb-3">{{ trip.id ? "Update trip info" : "Add new trip" }}</h5>
+    <div class="mb-3">
+      <label for="destination" class="form-label">Destination:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="destination"
+        name="destination"
+        [(ngModel)]="trip.destination"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="date" class="form-label">Date:</label>
+      <input
+        type="date"
+        class="form-control"
+        id="date"
+        name="date"
+        [(ngModel)]="trip.date"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="maxCapacity" class="form-label">Max capacity:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="maxCapacity"
+        name="maxCapacity"
+        [(ngModel)]="trip.maxCapacity"
+      />
+    </div>
+    <!-- <div class="mb-3">
+      <label for="status" class="form-label">Status:</label>
+      <select
+        class="form-select"
+        name="status"
+        id="status"
+        [(ngModel)]="trip.status"
+      >
+        <option [value]="s" *ngFor="let s of tripStatus">{{ s }}</option>
+      </select>
+    </div> -->
+    <div class="d-flex align-items-center gap-1">
+      <button
+        type="button"
+        class="btn btn-success"
+        *ngIf="trip.id"
+        (click)="saveTrip()"
+      >
+        Save
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        *ngIf="!trip.id"
+        (click)="addTrip()"
+      >
+        Add</button
+      ><button class="btn btn-primary" (click)="close()">Close</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,44 @@
+<div class="d-flex align-items-center justify-content-end p-3 gap-1 mb-3">
+  <form class="w-100 d-flex align-items-center gap-2">
+    <input type="text" class="form-control" placeholder="Search..." />
+    <button class="btn btn-success">
+      <ng-icon name="bootstrapSearch"></ng-icon>
+    </button>
+  </form>
+  <div>
+    <button class="btn btn-warning" (click)="openModal(true)">
+      <ng-icon name="bootstrapPlus"></ng-icon>
+    </button>
+  </div>
+  <div class="d-flex justify-content-end p2-3 gap-1 my-3">
+    <button class="btn btn-light text-dark" (click)="grid()">
+      <ng-icon name="bootstrapGrid"></ng-icon>
+    </button>
+    <div class="btn btn-light text-dark" (click)="list()">
+      <ng-icon name="bootstrapList"></ng-icon>
+    </div>
+  </div>
+</div>
+
+<div class="row row-cols-5 g-2" *ngIf="isGrid">
+  <div class="col" *ngFor="let e of employees">
+    <app-card [employee]="e"></app-card>
+  </div>
+</div>
+<div class="row gap-1 flex-column" *ngIf="!isGrid">
+  <div class="col-12" *ngFor="let e of employees">
+    <app-card-hor [employee]="e"></app-card-hor>
+  </div>
+</div>
+<div class="row d-flex align-items-center justify-content-center p-3">
+  <div class="btn-group border-0">
+    <button
+      class="btn btn-outline-primary btn-sm border-0"
+      [ngClass]="{ active: page === i }"
+      *ngFor="let n of iterations; let i = index"
+      (click)="changePage(i)"
+    >
+      {{ i + 1 }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+package epicode.it.businesstrips.entities.reservation;
+
+import epicode.it.businesstrips.entities.employee.Employee;
+
+import java.time.LocalDate;
+
+public interface IReservationResponse {
+    Long getId();
+    Employee getEmployee();
+    LocalDate getRequestDate();
+    
+
+}

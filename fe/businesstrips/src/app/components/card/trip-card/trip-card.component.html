@@ -1,0 +1,48 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ trip.destination | titlecase }}
+    </h5>
+    <span>Trip date: </span>
+    <p class="card-text fs-7">{{ trip.date }}</p>
+    <p class="card-text fs-7">
+      <span>Max capacity: </span> {{ trip.maxCapacity }}
+    </p>
+    <span>Status: </span>
+    <p
+      class="card-text fs-7 fw-bold"
+      role="button"
+      (click)="enableChange()"
+      *ngIf="!editStatus"
+      [ngClass]="{
+        'text-success': trip.status === 'COMPLETED',
+        'text-danger': trip.status === 'CANCELLED',
+        'text-warning': trip.status === 'PLANNED'
+      }"
+    >
+      {{ trip.status }}
+    </p>
+    <select
+      name="status"
+      id="status"
+      class="form-select"
+      *ngIf="editStatus"
+      (change)="changeStatus($event)"
+    >
+      <option [value]="s" *ngFor="let s of tripStatus">
+        {{ s }}
+      </option>
+    </select>
+    <div class="d-flex justify-content-evenly mt-2">
+      <a class="btn btn-primary" [routerLink]="['/trip', trip.id]">
+        <ng-icon name="bootstrapSearch"></ng-icon>
+      </a>
+      <button class="btn btn-warning text-light" (click)="openModal(trip)">
+        <ng-icon name="bootstrapPencil"></ng-icon>
+      </button>
+      <button class="btn btn-danger">
+        <ng-icon name="bootstrapTrash" (click)="delete(trip)"></ng-icon>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header shadow-sm">
+    <h5 class="offcanvas-title" id="offcanvas-basic-title">Admin menu</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="offcanvas.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="list-group border-0">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        class="list-group-item list-group-item-action border-0"
+        (click)="offcanvas.dismiss('Cross click')"
+        >Admin Dashboard</a
+      >
+      <a
+        routerLink="/employees"
+        routerLinkActive="active"
+        class="list-group-item list-group-item-action border-0"
+        (click)="offcanvas.dismiss('Cross click')"
+        >Manage Employees</a
+      >
+
+      <a
+        routerLink="/trips"
+        routerLinkActive="active"
+        class="list-group-item list-group-item-action border-0"
+        (click)="offcanvas.dismiss('Cross click')"
+        >Manage Trips</a
+      >
+
+      <a
+        routerLink="/reservations"
+        routerLinkActive="active"
+        class="list-group-item list-group-item-action border-0"
+        (click)="offcanvas.dismiss('Cross click')"
+        >Manage Reservations</a
+      >
+    </div>
+  </div>
+</ng-template>
+
+<div class="shadow-sm">
+  <header
+    class="d-flex align-items-center justify-content-between container py-3"
+  >
+    <h3 class="mb-0">{{ title }}</h3>
+    <button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+      <ng-icon name="bootstrapList"></ng-icon>
+    </button>
+  </header>
+</div>
