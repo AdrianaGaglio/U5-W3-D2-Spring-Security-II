@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -58,5 +59,20 @@ public class ReservationController {
     @GetMapping("trip/{tripId}")
     public ResponseEntity<List<ReservationResponse>> getByTrip(@PathVariable Long tripId) {
         return ResponseEntity.ok(reservationSvc.findByTrip(tripId));
+    }
+
+    @GetMapping("/byDate")
+    public ResponseEntity<List<ReservationResponse>> findByDate(@RequestParam LocalDate date) {
+        return ResponseEntity.ok(reservationSvc.findByDate(date));
+    }
+
+    @GetMapping("/byDestination")
+    public ResponseEntity<List<ReservationResponse>> findByDestination(@RequestParam String destination) {
+        return ResponseEntity.ok(reservationSvc.findByDestination(destination));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ReservationResponse>> findByDestinationAndDate(@RequestParam String destination, @RequestParam LocalDate date) {
+        return ResponseEntity.ok(reservationSvc.findByDestinationAndDate(destination, date));
     }
 }

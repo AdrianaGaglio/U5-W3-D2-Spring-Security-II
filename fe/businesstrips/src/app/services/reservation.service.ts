@@ -57,4 +57,25 @@ export class ReservationService {
   getByTrip(tripId: number): Observable<IReservationresponse[]> {
     return this.http.get<IReservationresponse[]>(`${this.url}/trip/${tripId}`);
   }
+
+  searchByDate(date: string): Observable<IReservationresponse[]> {
+    return this.http.get<IReservationresponse[]>(
+      `${this.url}/byDate?date=${date}`
+    );
+  }
+
+  searchByDestination(destination: string): Observable<IReservationresponse[]> {
+    return this.http.get<IReservationresponse[]>(
+      `${this.url}/byDestination?destination=${destination}`
+    );
+  }
+
+  search(
+    destination: string,
+    date: string
+  ): Observable<IReservationresponse[]> {
+    return this.http.get<IReservationresponse[]>(
+      `${this.url}/search?destination=${destination}&date=${date}`
+    );
+  }
 }

@@ -180,5 +180,42 @@ public class ReservationSvc {
         return response;
     }
 
+    public List<ReservationResponse> findByDate(LocalDate date) {
+        List<Reservation> r = reservationRepo.findAllByDate(date);
+        List<ReservationResponse> response = new ArrayList<>();
+        for (Reservation reservation : r) {
+            ReservationResponse reservationResponse = new ReservationResponse();
+            BeanUtils.copyProperties(reservation, reservationResponse);
+            reservationResponse.setEmployee(employeeSvc.getByIdResponse(reservation.getEmployee().getId()));
+            reservationResponse.setTrip(getTripResponse(reservation.getTrip()));
+            response.add(reservationResponse);
+        }
+        return response;
+    }
 
+    public List<ReservationResponse> findByDestination(String destination) {
+        List<Reservation> r = reservationRepo.findAllByDestination(destination);
+        List<ReservationResponse> response = new ArrayList<>();
+        for (Reservation reservation : r) {
+            ReservationResponse reservationResponse = new ReservationResponse();
+            BeanUtils.copyProperties(reservation, reservationResponse);
+            reservationResponse.setEmployee(employeeSvc.getByIdResponse(reservation.getEmployee().getId()));
+            reservationResponse.setTrip(getTripResponse(reservation.getTrip()));
+            response.add(reservationResponse);
+        }
+        return response;
+    }
+
+    public List<ReservationResponse> findByDestinationAndDate(String destination, LocalDate date) {
+        List<Reservation> r = reservationRepo.findAllByDestinationAndDate(destination, date);
+        List<ReservationResponse> response = new ArrayList<>();
+        for (Reservation reservation : r) {
+            ReservationResponse reservationResponse = new ReservationResponse();
+            BeanUtils.copyProperties(reservation, reservationResponse);
+            reservationResponse.setEmployee(employeeSvc.getByIdResponse(reservation.getEmployee().getId()));
+            reservationResponse.setTrip(getTripResponse(reservation.getTrip()));
+            response.add(reservationResponse);
+        }
+        return response;
+    }
 }

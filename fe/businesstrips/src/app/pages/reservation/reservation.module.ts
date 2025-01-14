@@ -11,6 +11,7 @@ import {
   bootstrapSearch,
 } from '@ng-icons/bootstrap-icons';
 import { CardModule } from '../../components/card/card.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ReservationComponent],
@@ -24,6 +25,7 @@ import { CardModule } from '../../components/card/card.module';
       bootstrapSearch,
     }),
     CardModule,
+    FormsModule,
   ],
 })
 export class ReservationModule {}

@@ -14,4 +14,6 @@ public interface TripRepo extends JpaRepository<Trip, Long> {
     @Query("SELECT t FROM Trip t WHERE LOWER(t.destination) LIKE CONCAT(:destination, '%')")
     public List<Trip> findByDestination(String destination);
 
+
+
 }

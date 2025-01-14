@@ -1,15 +1,42 @@
 <div class="d-flex align-items-center justify-content-end p-3 gap-1 mb-3">
-  <form class="w-100 d-flex align-items-center gap-2">
-    <input type="text" class="form-control" placeholder="Search..." />
-    <button class="btn btn-success">
+  <form
+    #form="ngForm"
+    class="w-100 d-flex align-items-end gap-2"
+    (submit)="search(date, destination)"
+  >
+    <div class="w-100">
+      <label class="form-label" for="date">Reservation date:</label>
+      <input
+        type="date"
+        class="form-control"
+        id="date"
+        name="date"
+        [(ngModel)]="date"
+        placeholder="Search by date..."
+        (keyup.esc)="refresh()"
+      />
+    </div>
+    <div class="w-100">
+      <label for="destination" class="form-label">Trip destination:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="destination"
+        name="destination"
+        [(ngModel)]="destination"
+        placeholder="Search by destination..."
+        (keyup)="search(date, destination)"
+        (keyup.esc)="refresh()"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-success">
       <ng-icon name="bootstrapSearch"></ng-icon>
     </button>
-  </form>
-  <div>
-    <button class="btn btn-warning" (click)="openModal(true)">
+    <button type="button" class="btn btn-warning" (click)="openModal(true)">
       <ng-icon name="bootstrapPlus"></ng-icon>
     </button>
-  </div>
+  </form>
 </div>
 
 <div class="row gap-1 flex-column">
