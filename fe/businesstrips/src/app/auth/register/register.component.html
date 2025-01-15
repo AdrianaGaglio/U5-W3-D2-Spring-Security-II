@@ -1,5 +1,6 @@
 <div class="row h-100 align-items-center">
   <div class="col-8 mx-auto">
+    <h3>Register new employee</h3>
     <form [formGroup]="registerForm">
       <div class="mb-3">
         <div class="d-flex justify-content-between">
@@ -35,10 +36,14 @@
       </div>
       <div formGroupName="employeeRequest">
         <div class="mb-3">
-          <label for="firstName" class="form-label">First name:</label>
-          <span *ngIf="isTouchedInvalid('firstName')">{{
-            message("firstName")
-          }}</span>
+          <div class="d-flex justify-content-between">
+            <label for="firstName" class="form-label">First name:</label>
+            <span
+              class="text-danger"
+              *ngIf="isTouchedInvalid('employeeRequest.firstName')"
+              >{{ message("employeeRequest.firstName") }}</span
+            >
+          </div>
           <input
             type="text"
             class="form-control"
@@ -49,10 +54,14 @@
           />
         </div>
         <div class="mb-3">
-          <label for="lastName" class="form-label">Last name:</label>
-          <span *ngIf="isTouchedInvalid('lastName')">{{
-            message("lastName")
-          }}</span>
+          <div class="d-flex justify-content-between">
+            <label for="lastName" class="form-label">Last name:</label>
+            <span
+              class="text-danger"
+              *ngIf="isTouchedInvalid('employeeRequest.lastName')"
+              >{{ message("employeeRequest.lastName") }}</span
+            >
+          </div>
           <input
             type="text"
             class="form-control"
@@ -63,8 +72,14 @@
           />
         </div>
         <div class="mb-3">
-          <label for="email" class="form-label">Email:</label>
-          <span *ngIf="isTouchedInvalid('email')">{{ message("email") }}</span>
+          <div class="d-flex justify-content-between">
+            <label for="email" class="form-label">Email:</label>
+            <span
+              class="text-danger"
+              *ngIf="isTouchedInvalid('employeeRequest.email')"
+              >{{ message("employeeRequest.email") }}</span
+            >
+          </div>
           <input
             type="text"
             class="form-control"
@@ -86,7 +101,13 @@
           />
         </div>
       </div>
-      <button class="btn btn-success">Register</button>
+      <button
+        class="btn btn-success"
+        (click)="register()"
+        [disabled]="!registerForm.valid ? true : false"
+      >
+        Register
+      </button>
     </form>
   </div>
 </div>

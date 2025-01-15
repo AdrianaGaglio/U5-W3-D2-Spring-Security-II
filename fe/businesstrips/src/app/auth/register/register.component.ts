@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,7 @@ import {
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private authSvc: AuthService) {}
 
   registerForm!: FormGroup;
 
@@ -38,7 +39,8 @@ export class RegisterComponent {
   isTouchedInvalid(field: string) {
     return (
       this.registerForm.get(field)?.touched &&
-      this.registerForm.get(field)?.invalid
+      this.registerForm.get(field)?.invalid &&
+      this.registerForm.get(field)?.dirty
     );
   }
 
@@ -65,5 +67,24 @@ export class RegisterComponent {
       return 'Invalid email.';
     }
     return '';
+  }
+
+  formValid() {
+    return this.registerForm.valid;
+  }
+
+  register() {
+    if (this.formValid()) {
+      this.authSvc.register(this.registerForm.value).subscribe({
+        next: (res) => {
+          console.log(res.message);
+          this.registerForm.reset();
+        },
+        error: (err) => {
+          console.log(err);
+          this.registerForm.reset();
+        },
+      });
+    }
   }
 }

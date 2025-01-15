@@ -1,38 +1,62 @@
 <div class="row h-100 align-items-center">
   <div class="col-8 mx-auto">
+    <h3>Login</h3>
     <form [formGroup]="loginForm">
       <div class="mb-3">
-        <label for="username" class="form-label">Username:</label>
-
+        <div class="d-flex justify-content-between">
+          <label for="username" class="form-label">Username:</label>
+          <span *ngIf="isTouchedInvalid('username')" class="text-danger">{{
+            message("username")
+          }}</span>
+        </div>
         <input
           type="text"
           class="form-control"
           id="username"
           name="username"
+          #username
           formControlName="username"
         />
       </div>
       <div class="mb-3">
-        <label for="email" class="form-label">Email:</label>
+        <div class="d-flex justify-content-between">
+          <label for="email" class="form-label">Email:</label>
+          <span *ngIf="isTouchedInvalid('email')" class="text-danger">{{
+            message("email")
+          }}</span>
+        </div>
         <input
           type="text"
           class="form-control"
           id="email"
           name="email"
+          #email
           formControlName="email"
         />
       </div>
       <div class="mb-3">
-        <label for="password" class="form-label">Password:</label>
+        <div class="d-flex justify-content-between">
+          <label for="password" class="form-label">Password:</label>
+          <span *ngIf="isTouchedInvalid('password')" class="text-danger">{{
+            message("password")
+          }}</span>
+        </div>
         <input
           type="password"
           class="form-control"
           id="password"
           name="password"
+          #password
           formControlName="password"
         />
       </div>
-      <button class="btn btn-success">Register</button>
+      <button
+        class="btn btn-success"
+        (click)="login()"
+        [disabled]="!formValid() ? true : false"
+      >
+        Login
+      </button>
     </form>
   </div>
 </div>
