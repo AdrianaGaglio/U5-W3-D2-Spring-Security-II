@@ -32,10 +32,12 @@ export class AuthService {
   autoLogoutTimer: any;
 
   register(newUser: iRegisterrequest): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${this.url}/register`, newUser);
+    return this.http
+      .post<{ message: string }>(`${this.url}/register`, newUser)
+      .pipe(tap((res) => this.router.navigate(['/auth/login'])));
   }
 
-  login(authData: iLoginrequest): Observable<iAuthdata> {
+  login(authData: Partial<iLoginrequest>): Observable<iAuthdata> {
     return this.http.post<iAuthdata>(`${this.url}/login`, authData).pipe(
       tap((authData) => {
         this.authSubject$.next(authData);
@@ -46,7 +48,8 @@ export class AuthService {
         if (!expDate) return;
 
         this.autoLogout(expDate);
-      })
+      }),
+      tap((res) => this.router.navigate(['/']))
     );
   }
 

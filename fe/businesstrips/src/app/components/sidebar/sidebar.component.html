@@ -49,11 +49,11 @@
     class="d-flex align-items-center justify-content-between container py-3"
   >
     <h3 class="mb-0">{{ title }}</h3>
-    <div class="d-flex align-items-center">
-      <div class="profile"></div>
+    <div class="d-flex align-items-center gap-1" *ngIf="isLoggedIn">
       <button class="btn btn-lg btn-outline-primary" (click)="open(content)">
         <ng-icon name="bootstrapList"></ng-icon>
       </button>
+      <button class="btn btn-danger" (click)="logout()">Logout</button>
     </div>
   </header>
 </div>

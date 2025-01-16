@@ -13,6 +13,7 @@ import {
   OffcanvasDismissReasons,
 } from '@ng-bootstrap/ng-bootstrap';
 import { PagetitleService } from '../../services/pagetitle.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,14 +21,20 @@ import { PagetitleService } from '../../services/pagetitle.service';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
-  constructor(private pageTitle: PagetitleService) {}
+  constructor(
+    private pageTitle: PagetitleService,
+    private authSvc: AuthService
+  ) {}
 
   title!: string;
+  isLoggedIn: boolean = false;
 
   ngOnInit() {
     this.pageTitle.title.subscribe((title) => {
       this.title = title;
     });
+
+    this.authSvc.isLoggedIn$.subscribe((res) => (this.isLoggedIn = res));
   }
 
   private offcanvasService = inject(NgbOffcanvas);
@@ -55,5 +62,9 @@ export class SidebarComponent {
       default:
         return `with: ${reason}`;
     }
+  }
+
+  logout() {
+    this.authSvc.logout();
   }
 }

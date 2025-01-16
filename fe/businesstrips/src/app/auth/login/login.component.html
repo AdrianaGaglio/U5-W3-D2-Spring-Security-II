@@ -4,34 +4,20 @@
     <form [formGroup]="loginForm">
       <div class="mb-3">
         <div class="d-flex justify-content-between">
-          <label for="username" class="form-label">Username:</label>
-          <span *ngIf="isTouchedInvalid('username')" class="text-danger">{{
-            message("username")
-          }}</span>
+          <label for="username" class="form-label">Username or Email:</label>
+          <span
+            *ngIf="isTouchedInvalid('usernameOrEmail')"
+            class="text-danger"
+            >{{ message("usernameOrEmail") }}</span
+          >
         </div>
         <input
           type="text"
           class="form-control"
-          id="username"
-          name="username"
-          #username
-          formControlName="username"
-        />
-      </div>
-      <div class="mb-3">
-        <div class="d-flex justify-content-between">
-          <label for="email" class="form-label">Email:</label>
-          <span *ngIf="isTouchedInvalid('email')" class="text-danger">{{
-            message("email")
-          }}</span>
-        </div>
-        <input
-          type="text"
-          class="form-control"
-          id="email"
-          name="email"
-          #email
-          formControlName="email"
+          id="usernameOrEmail"
+          name="usernameOrEmail"
+          #usernameOrEmail
+          formControlName="usernameOrEmail"
         />
       </div>
       <div class="mb-3">
