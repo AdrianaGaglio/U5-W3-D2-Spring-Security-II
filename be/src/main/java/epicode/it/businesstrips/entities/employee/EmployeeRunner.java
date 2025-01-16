@@ -38,10 +38,11 @@ public class EmployeeRunner implements ApplicationRunner {
                     lastName = lastName.replace("'", "");
                 }
 
-                newEmployee.setEmail(newEmployee.getFirstName().toLowerCase() + "." + lastName.toLowerCase() + "@mail.com");
                 newEmployee.setImage("https://ui-avatars.com/api/?name=" + newEmployee.getFirstName() + "+" + newEmployee.getLastName());
+                String email = newEmployee.getFirstName().toLowerCase() + lastName.toLowerCase() + "@mail.it";
+                RegisterRequest request = new RegisterRequest(newEmployee.getFirstName().toLowerCase() + lastName.toLowerCase().charAt(0), email, "password", newEmployee);
 
-                RegisterRequest request = new RegisterRequest(newEmployee.getFirstName().toLowerCase() + lastName.toLowerCase().charAt(0), "password", newEmployee);
+
 
                 try {
 //                    employeeSvc.create(newEmployee);

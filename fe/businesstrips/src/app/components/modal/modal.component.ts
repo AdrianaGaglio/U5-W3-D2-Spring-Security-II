@@ -1,3 +1,4 @@
+import { iEmployeecreaterequest } from './../../interfaces/iemployeecreaterequest';
 import {
   Component,
   Input,
@@ -12,6 +13,8 @@ import { iTrip } from '../../interfaces/itrip';
 import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
 import { environment } from '../../../environments/environment.development';
 import { TripService } from '../../services/trip.service';
+import { iRegisterrequest } from '../../interfaces/iregisterrequest';
+import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-modal',
@@ -23,7 +26,8 @@ export class ModalComponent {
     public activeModal: NgbActiveModal,
     private uploadSvc: UploadService,
     private employeeSvc: EmployeeService,
-    private tripSvc: TripService
+    private tripSvc: TripService,
+    private fb: FormBuilder
   ) {}
 
   @Input() employee: iEmployee | Partial<iEmployee> = {};
@@ -31,9 +35,13 @@ export class ModalComponent {
   @Input() isEmployee!: boolean;
   @Input() isTrip!: boolean;
 
+  @ViewChild('employeeForm') employeeForm!: NgForm;
+
   tripStatus: string[] = environment.tripStatus;
 
   selectedFile!: File;
+
+  form!: FormGroup;
 
   ngOnInit() {
     if ((this.trip && !this.employee) || this.trip.id) {
@@ -42,6 +50,17 @@ export class ModalComponent {
     if ((this.employee && !this.trip) || this.employee.id) {
       this.isEmployee = true;
     }
+
+    this.form = this.fb.group({
+      username: this.fb.control(this.employee.username || ''),
+      email: this.fb.control(this.employee.email || ''),
+      password: this.fb.control(''),
+      iEmployeecreaterequest: this.fb.group({
+        firstName: this.fb.control(this.employee.firstName || ''),
+        lastName: this.fb.control(this.employee.lastName || ''),
+        image: this.fb.control(this.employee.image || ''),
+      }),
+    });
   }
 
   onFileSelected(event: Event) {
@@ -61,7 +80,7 @@ export class ModalComponent {
       formData.append('file', this.selectedFile);
       this.uploadSvc.upload(formData).subscribe((res) => {
         if (res) {
-          this.employee.image = res;
+          this.form.get('image')?.setValue(res);
           this.employeeSvc.update(this.employee).subscribe((res) => {
             setTimeout(() => this.activeModal.close(), 1000);
           });
@@ -81,8 +100,8 @@ export class ModalComponent {
       formData.append('file', this.selectedFile);
       this.uploadSvc.upload(formData).subscribe((res) => {
         if (res) {
-          this.employee.image = res;
-          this.employeeSvc.create(this.employee).subscribe((res) => {
+          this.form.get('image')?.setValue(res);
+          this.employeeSvc.create(this.form.value).subscribe((res) => {
             setTimeout(() => this.activeModal.close(), 1000);
             this.employeeSvc.getEmployees().subscribe();
           });

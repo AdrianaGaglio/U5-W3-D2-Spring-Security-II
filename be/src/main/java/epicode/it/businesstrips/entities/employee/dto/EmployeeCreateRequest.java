@@ -16,11 +16,6 @@ public class EmployeeCreateRequest {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @NotNull(message = "Email name is required")
-    @NotBlank(message = "Email name is required")
-    @Email(message = "Invalid email address")
-    private String email;
-
     private Long userId;
 
     private String image;

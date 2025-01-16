@@ -22,7 +22,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Utente non trovato con username: " + username));
 
         // Converte l'utente in un'istanza di UserDetails per l'autenticazione di Spring Security.
-        return new User(
+        return new CustomUser(
+                appUser.getId(),
                 appUser.getUsername(), // Imposta l'username dell'utente.
                 appUser.getPassword(), // Imposta la password dell'utente (già codificata).
                 appUser.getRoles().stream() // Converte i ruoli dell'utente in SimpleGrantedAuthority.

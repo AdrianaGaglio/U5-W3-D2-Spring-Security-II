@@ -26,9 +26,7 @@ export class CardHorComponent {
   isAdmin: boolean = false;
 
   ngOnInit() {
-    if (this.authSvc.decodeRole() === 'ADMIN') {
-      this.isAdmin = true;
-    }
+    this.authSvc.isAdmin$.subscribe((res) => (this.isAdmin = res));
     if (this.router.url.startsWith('/employee')) {
       this.isDetails = true;
     }

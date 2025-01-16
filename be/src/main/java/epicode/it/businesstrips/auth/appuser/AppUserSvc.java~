@@ -120,11 +120,11 @@ public class AppUserSvc {
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
 
-            EmployeeResponse user = new EmployeeResponse();
+            EmployeeResponse user = mapper.toEmployeeResponse(employeeSvc.findByAppUserId(found.getId()));
 
             if ((!request.getUsername().equals("admin") && !request.getUsername().equals("user")) || request.getEmail() != null) {
                 String text = request.getUsername() != null ? request.getUsername() : request.getEmail();
-                user = mapper.toEmployeeResponse(employeeSvc.findByAppUserId(found.getId()));
+                user = employeeSvc.findByFirstNameOrLastNameOrUsername(text).getFirst();
             }
 
 

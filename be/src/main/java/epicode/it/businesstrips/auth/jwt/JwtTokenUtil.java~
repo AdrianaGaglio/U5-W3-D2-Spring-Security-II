@@ -80,7 +80,7 @@ public class JwtTokenUtil {
      * @param userDetails I dettagli dell'utente per cui generare il token.
      * @return Una stringa rappresentante il token JWT generato.
      */
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(CustomUserDetails userDetails) {
         System.out.println("===> USER DETAILS" + userDetails);
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         List<String> roles = authorities.stream()
@@ -88,7 +88,8 @@ public class JwtTokenUtil {
                 .collect(Collectors.toList());
 
         return Jwts.builder()
-                .setSubject(userDetails.getUsername()) // Imposta l'username come subject.
+                .setSubject(userDetails.getUsername())
+                .claim("id", userDetails.getId())// Imposta l'username come subject.
                 .claim("roles", roles) // Aggiunge i ruoli come claim.
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Imposta la data di creazione.
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs)) // Imposta la data di scadenza.

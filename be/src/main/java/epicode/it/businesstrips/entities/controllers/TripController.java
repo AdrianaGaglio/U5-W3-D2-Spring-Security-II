@@ -1,4 +1,4 @@
-package epicode.it.businesstrips.controllers;
+package epicode.it.businesstrips.entities.controllers;
 
 import epicode.it.businesstrips.entities.trip.*;
 import epicode.it.businesstrips.entities.trip.dto.TripCreateRequest;

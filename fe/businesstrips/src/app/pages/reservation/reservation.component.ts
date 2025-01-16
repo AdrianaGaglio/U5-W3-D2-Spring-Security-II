@@ -50,7 +50,7 @@ export class ReservationComponent {
         .searchByDestination(destination)
         .subscribe((res) => (this.reservations = res));
 
-    if (date !== '' && destination !== '') {
+    if (date !== '' && date !== null && destination !== '') {
       this.reservationSvc
         .search(destination, date)
         .subscribe((res) => (this.reservations = res));

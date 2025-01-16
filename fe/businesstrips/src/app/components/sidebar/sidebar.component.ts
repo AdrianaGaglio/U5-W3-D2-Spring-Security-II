@@ -28,13 +28,21 @@ export class SidebarComponent {
 
   title!: string;
   isLoggedIn: boolean = false;
+  isAdmin: boolean = false;
+  employeeId!: number;
 
   ngOnInit() {
+    this.authSvc.isAdmin$.subscribe((res) => (this.isAdmin = res));
     this.pageTitle.title.subscribe((title) => {
       this.title = title;
     });
 
     this.authSvc.isLoggedIn$.subscribe((res) => (this.isLoggedIn = res));
+
+    let json = localStorage.getItem('authData');
+    if (json) {
+      this.employeeId = JSON.parse(json).user?.id;
+    }
   }
 
   private offcanvasService = inject(NgbOffcanvas);

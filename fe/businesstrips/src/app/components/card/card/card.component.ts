@@ -22,9 +22,8 @@ export class CardComponent {
   @Input() employee!: iEmployee;
 
   ngOnInit() {
-    if (this.authSvc.decodeRole() === 'ADMIN') {
-      this.isAdmin = true;
-    }
+    this.authSvc.isAdmin$.subscribe((res) => (this.isAdmin = res));
+    console.log(this.isAdmin);
   }
 
   delete(employee: iEmployee) {

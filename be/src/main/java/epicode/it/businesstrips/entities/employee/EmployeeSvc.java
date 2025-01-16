@@ -1,11 +1,14 @@
 package epicode.it.businesstrips.entities.employee;
 
+import epicode.it.businesstrips.auth.appuser.AppUser;
 import epicode.it.businesstrips.auth.appuser.AppUserRepo;
 import epicode.it.businesstrips.entities.employee.dto.EmployeeCreateRequest;
 import epicode.it.businesstrips.entities.employee.dto.EmployeeResponse;
+import epicode.it.businesstrips.entities.employee.dto.EmployeeResponseMapper;
 import epicode.it.businesstrips.entities.employee.dto.EmployeeUpdateRequest;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -22,26 +25,18 @@ import java.util.List;
 @Validated
 public class EmployeeSvc {
     private final EmployeeRepo employeeRepo;
+    private final EmployeeResponseMapper mapper;
     private final AppUserRepo appUserRepo;
 
     public List<EmployeeResponse> getAll() {
-        List<Employee> employees = employeeRepo.findAll();
-        List<EmployeeResponse> response = new ArrayList<>();
-        for (Employee e : employees) {
-            EmployeeResponse employeeResponse = new EmployeeResponse();
-            BeanUtils.copyProperties(e, employeeResponse);
-            employeeResponse.setUsername(e.getAppUser().getUsername());
-            response.add(employeeResponse);
-        }
+        List<EmployeeResponse> response = mapper.toEmployeeResponseList(employeeRepo.findAll());
         return response;
     }
 
     public Page<EmployeeResponse> getAllPageable(Pageable pageable) {
         Page<Employee> pagedEmployees = employeeRepo.findAll(pageable);
         Page<EmployeeResponse> response = pagedEmployees.map(e -> {
-            EmployeeResponse employeeResponse = new EmployeeResponse();
-            BeanUtils.copyProperties(e, employeeResponse);
-            employeeResponse.setUsername(e.getAppUser().getUsername());
+            EmployeeResponse employeeResponse = mapper.toEmployeeResponse(e);
             return employeeResponse;
         });
         return response;
@@ -52,10 +47,7 @@ public class EmployeeSvc {
     }
 
     public EmployeeResponse getByIdResponse(Long id) {
-        Employee e = getById(id);
-        EmployeeResponse response = new EmployeeResponse();
-        BeanUtils.copyProperties(e, response);
-        response.setUsername(e.getAppUser().getUsername());
+        EmployeeResponse response = mapper.toEmployeeResponse(getById(id));
         return response;
     }
 
@@ -63,8 +55,11 @@ public class EmployeeSvc {
         return (int) employeeRepo.count();
     }
 
+    @Transactional
     public String delete(Long id) {
         Employee e = getById(id);
+        AppUser au = appUserRepo.findById(e.getAppUser().getId()).orElse(null);
+        appUserRepo.delete(au);
         employeeRepo.delete(e);
         return "Employee deleted successfully";
     }
@@ -76,21 +71,17 @@ public class EmployeeSvc {
     }
 
     public EmployeeResponse create(@Valid EmployeeCreateRequest request) {
-        if (employeeRepo.existsByEmail(request.getEmail().toLowerCase())) {
-            throw new EntityExistsException("Email already exists");
-        }
+
         Employee e = new Employee();
         e.setFirstName(request.getFirstName());
         e.setLastName(request.getLastName());
         e.setImage(request.getImage() != null || !request.getImage().isEmpty() ? request.getImage() : "https://ui-avatars.com/api/?name=" + e.getFirstName() + "+" + e.getLastName());
-        e.setEmail(request.getEmail().toLowerCase());
+
         if (request.getUserId() != null) {
             e.setAppUser(appUserRepo.findById(request.getUserId()).orElse(null));
         }
         e = employeeRepo.save(e);
-        EmployeeResponse response = new EmployeeResponse();
-        BeanUtils.copyProperties(e, response);
-        response.setUsername(e.getAppUser().getUsername());
+        EmployeeResponse response = mapper.toEmployeeResponse(e);
         return response;
     }
 
@@ -99,9 +90,9 @@ public class EmployeeSvc {
 
         Employee foundE = employeeRepo.findFirstByEmail(request.getEmail().toLowerCase());
         boolean emailOk = foundE == null || !foundE.getId().equals(request.getId());
-        if (request.getEmail() != null && employeeRepo.existsByEmail(request.getEmail().toLowerCase()) && emailOk)
+        if (request.getEmail() != null && foundE != null && emailOk)
             throw new EntityExistsException("Email already exists");
-        e.setEmail(request.getEmail() != null ? request.getEmail().toLowerCase() : e.getEmail());
+
 
         Employee foundEn = employeeRepo.findFirstByUsername(request.getUsername().toLowerCase());
         boolean usernameOk = foundEn == null || !foundEn.getId().equals(request.getId());
@@ -116,21 +107,19 @@ public class EmployeeSvc {
 
         e = employeeRepo.save(e);
 
-        EmployeeResponse response = new EmployeeResponse();
-        BeanUtils.copyProperties(e, response);
-        response.setUsername(e.getAppUser().getUsername());
+        EmployeeResponse response = mapper.toEmployeeResponse(e);
+
         return response;
     }
 
     public List<EmployeeResponse> findByFirstNameOrLastNameOrUsername(String name) {
         List<Employee> employees = employeeRepo.findFirstByFirstNameOrLastNameOrUsername(name.toLowerCase());
-        List<EmployeeResponse> response = new ArrayList<>();
-        for (Employee e : employees) {
-            EmployeeResponse employeeResponse = new EmployeeResponse();
-            BeanUtils.copyProperties(e, employeeResponse);
-            employeeResponse.setUsername(e.getAppUser().getUsername());
-            response.add(employeeResponse);
-        }
+        List<EmployeeResponse> response = mapper.toEmployeeResponseList(employeeRepo.findFirstByFirstNameOrLastNameOrUsername(name.toLowerCase()));
+
         return response;
+    }
+
+    public Employee findByAppUserId(Long id) {
+        return employeeRepo.findByAppUserId(id);
     }
 }

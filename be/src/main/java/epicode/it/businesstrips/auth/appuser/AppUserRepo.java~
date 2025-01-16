@@ -17,6 +17,6 @@ public interface AppUserRepo extends JpaRepository<AppUser, Long> {
     boolean existsByEmail(String email);
 
 
-    @Query("SELECT u FROM AppUser u WHERE LOWER(u.username) = LOWER(:usernameOrEmail) OR LOWER(u.email) = LOWER(:usernameOrEmail)")
+    @Query("SELECT u FROM AppUser u WHERE LOWER(u.username) = LOWER(:username) OR LOWER(u.email) = LOWER(:email)")
     public AppUser findFirstByUsernameOrEmail(String usernameOrEmail);
 }

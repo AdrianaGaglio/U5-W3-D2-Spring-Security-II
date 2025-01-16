@@ -27,6 +27,8 @@ export class AuthService {
     map((authData) => authData?.user)
   );
 
+  isAdmin$ = new BehaviorSubject(false);
+
   isLoggedIn$ = this.authSubject$.pipe(map((authData) => !!authData));
 
   isLoggedIn: boolean = false;
@@ -53,8 +55,10 @@ export class AuthService {
       }),
       tap((res) => {
         if (this.decodeRole() === 'ADMIN') {
+          this.isAdmin$.next(true);
           this.router.navigate(['/']);
         } else {
+          this.isAdmin$.next(false);
           this.router.navigate(['/employee', res.user.id]);
         }
       })
@@ -65,6 +69,7 @@ export class AuthService {
 
   logout() {
     this.authSubject$.next(null);
+    this.isAdmin$.next(false);
     localStorage.removeItem('authData');
     this.router.navigate(['/auth/login']);
   }
@@ -79,6 +84,8 @@ export class AuthService {
       this.logout();
       return;
     }
+
+    if (this.decodeRole() === 'ADMIN') this.isAdmin$.next(true);
 
     this.authSubject$.next(authData);
   }

@@ -4,6 +4,7 @@ import { EmployeeService } from '../../services/employee.service';
 import { iEmployee } from '../../interfaces/iemployee';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-employees',
@@ -14,7 +15,8 @@ export class EmployeesComponent {
   constructor(
     private pageTitle: PagetitleService,
     private employeeSvc: EmployeeService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private authSvc: AuthService
   ) {}
 
   employees!: iEmployee[];
@@ -22,8 +24,10 @@ export class EmployeesComponent {
   iterations: number[] = [];
   isGrid: boolean = true;
   text: string = '';
+  isAdmin: boolean = false;
 
   ngOnInit() {
+    this.authSvc.isAdmin$.subscribe((res) => (this.isAdmin = res));
     this.pageTitle.title.next('Manage employees');
     this.employeeSvc.employees$.subscribe((res) => {
       this.employees = res;
@@ -41,6 +45,7 @@ export class EmployeesComponent {
   }
 
   list() {
+    this.employeeSvc.getEmployees().subscribe();
     this.isGrid = false;
   }
 

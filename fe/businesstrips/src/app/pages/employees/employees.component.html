@@ -16,7 +16,7 @@
     </button>
   </form>
   <div>
-    <button class="btn btn-warning" (click)="openModal(true)">
+    <button class="btn btn-warning" (click)="openModal(true)" *ngIf="isAdmin">
       <ng-icon name="bootstrapPlus"></ng-icon>
     </button>
   </div>

@@ -13,7 +13,6 @@ public class EmployeeResponseMapper {
     public EmployeeResponse toEmployeeResponse(Employee e) {
         EmployeeResponse response = modelMapper.map(e, EmployeeResponse.class);
         response.setUsername(e.getAppUser().getUsername());
-        response.setEmail(e.getAppUser().getEmail());
         return response;
     }
 

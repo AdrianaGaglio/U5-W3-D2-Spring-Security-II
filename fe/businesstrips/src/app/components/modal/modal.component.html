@@ -1,30 +1,10 @@
 <div
   class="custom-modal w-100 p-3 d-flex align-items-center justify-content-center"
 >
-  <form class="w-100" *ngIf="isEmployee">
+  <form class="w-100" *ngIf="isEmployee" [formGroup]="form">
     <h5 class="mb-3">
       {{ employee.id ? "Update employee info" : "Add new employee" }}
     </h5>
-    <div class="mb-3">
-      <label for="firstName" class="form-label">First name:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="firstName"
-        name="firstName"
-        [(ngModel)]="employee.firstName"
-      />
-    </div>
-    <div class="mb-3">
-      <label for="lastName" class="form-label">Last name:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="lastName"
-        name="lastName"
-        [(ngModel)]="employee.lastName"
-      />
-    </div>
     <div class="mb-3">
       <label for="username" class="form-label">Username:</label>
       <input
@@ -32,7 +12,7 @@
         class="form-control"
         id="username"
         name="username"
-        [(ngModel)]="employee.username"
+        formControlName="username"
       />
     </div>
     <div class="mb-3">
@@ -42,20 +22,53 @@
         class="form-control"
         id="email"
         name="email"
-        [(ngModel)]="employee.email"
+        formControlName="email"
       />
     </div>
     <div class="mb-3">
-      <label for="image" class="form-label">Profile image:</label>
+      <label for="password" class="form-label">Password:</label>
       <input
-        type="file"
+        type="password"
         class="form-control"
-        id="image"
-        name="image"
-        accept="image/png, image/jpeg"
-        (change)="onFileSelected($event)"
+        id="password"
+        name="password"
+        formControlName="password"
       />
     </div>
+    <ng-container formGroupName="employeeRequest">
+      <div class="mb-3">
+        <label for="firstName" class="form-label">First name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          name="firstName"
+          formControlName="firstName"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="lastName" class="form-label">Last name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          name="lastName"
+          formControlName="lastName"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Profile image:</label>
+        <input
+          type="file"
+          class="form-control"
+          id="image"
+          name="image"
+          accept="image/png, image/jpeg"
+          (change)="onFileSelected($event)"
+          formControlName="image"
+        />
+      </div>
+    </ng-container>
     <div class="d-flex align-items-center gap-1">
       <button
         type="button"

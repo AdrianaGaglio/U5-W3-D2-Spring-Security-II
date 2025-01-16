@@ -35,7 +35,9 @@ export class EmployeeService {
   create(employee: Partial<iEmployee>): Observable<iEmployee> {
     return this.http
       .post<iEmployee>(this.url, employee)
-      .pipe(tap((res) => this.getEmployees().subscribe()));
+      .pipe(
+        tap((res) => this.employees$.next([...this.employees$.getValue(), res]))
+      );
   }
 
   delete(employee: iEmployee): Observable<string> {
@@ -46,7 +48,9 @@ export class EmployeeService {
       .pipe(
         tap((res) =>
           this.getEmployees().subscribe((employees) =>
-            this.employees$.next(employees)
+            this.employees$.next(
+              this.employees$.getValue().filter((emp) => emp.id !== employee.id)
+            )
           )
         )
       );

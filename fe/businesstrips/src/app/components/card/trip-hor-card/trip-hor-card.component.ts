@@ -33,9 +33,7 @@ export class TripHorCardComponent {
     if (json) {
       this.employeeId = JSON.parse(json).user.id;
     }
-    if (this.authSvc.decodeRole() === 'ADMIN') {
-      this.isAdmin = true;
-    }
+    this.authSvc.isAdmin$.subscribe((res) => (this.isAdmin = res));
   }
 
   delete(trip: iTrip) {

@@ -8,6 +8,7 @@ import epicode.it.businesstrips.entities.preference.dto.PreferenceCreateRequest;
 import epicode.it.businesstrips.entities.preference.PreferenceSvc;
 import epicode.it.businesstrips.entities.reservation.dto.ReservationCreateRequest;
 import epicode.it.businesstrips.entities.reservation.dto.ReservationResponse;
+import epicode.it.businesstrips.entities.reservation.dto.ReservationResponseMapper;
 import epicode.it.businesstrips.entities.trip.Trip;
 import epicode.it.businesstrips.entities.trip.dto.TripResponse;
 import epicode.it.businesstrips.entities.trip.TripSvc;
@@ -17,6 +18,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +35,7 @@ public class ReservationSvc {
     private final EmployeeSvc employeeSvc;
     private final TripSvc tripSvc;
     private final PreferenceSvc preferenceSvc;
+    private final ReservationResponseMapper mapper;
 
     public Reservation save(Reservation e) {
         return reservationRepo.save(e);
@@ -45,25 +48,14 @@ public class ReservationSvc {
     }
 
     public List<ReservationResponse> getAll() {
-        List<Reservation> reservations = reservationRepo.findAll();
-        List<ReservationResponse> response = new ArrayList<>();
-        for (Reservation r : reservations) {
-            ReservationResponse reservationResponse = new ReservationResponse();
-            BeanUtils.copyProperties(r, reservationResponse);
-            reservationResponse.setEmployee(employeeSvc.getByIdResponse(r.getEmployee().getId()));
-            reservationResponse.setTrip(getTripResponse(r.getTrip()));
-            response.add(reservationResponse);
-        }
+        List<ReservationResponse> response = mapper.toReservationResponseList(reservationRepo.findAll());
         return response;
     }
 
     public Page<ReservationResponse> getAllPageable(Pageable pageable) {
         Page<Reservation> reservations = reservationRepo.findAll(pageable);
         Page<ReservationResponse> response = reservations.map(r -> {
-            ReservationResponse reservationResponse = new ReservationResponse();
-            BeanUtils.copyProperties(r, reservationResponse);
-            reservationResponse.setEmployee(employeeSvc.getByIdResponse(r.getEmployee().getId()));
-            reservationResponse.setTrip(getTripResponse(r.getTrip()));
+            ReservationResponse reservationResponse = mapper.toReservationResponse(r);
             return reservationResponse;
         });
         return response;
@@ -74,11 +66,8 @@ public class ReservationSvc {
     }
 
     public ReservationResponse getByIdResponse(Long id) {
-        Reservation r = getById(id);
-        ReservationResponse reservationResponse = new ReservationResponse();
-        BeanUtils.copyProperties(r, reservationResponse);
-        reservationResponse.setEmployee(employeeSvc.getByIdResponse(r.getEmployee().getId()));
-        reservationResponse.setTrip(getTripResponse(r.getTrip()));
+        ReservationResponse reservationResponse = mapper.toReservationResponse(getById(id));
+
         return reservationResponse;
     }
 
@@ -127,29 +116,15 @@ public class ReservationSvc {
         }
 
         r = reservationRepo.save(r);
-        ReservationResponse response = new ReservationResponse();
-        BeanUtils.copyProperties(r, response);
-        response.setEmployee(employeeSvc.getByIdResponse(r.getEmployee().getId()));
-        response.setTrip(getTripResponse(r.getTrip()));
+        ReservationResponse response = mapper.toReservationResponse(r);
+
         return response;
     }
 
     public List<ReservationResponse> getByEmployee(Long id) {
         Employee e = employeeSvc.getById(id);
-        List<Reservation> reservations = reservationRepo.findByEmployeeOrderByRequestDateDesc(e);
-        List<ReservationResponse> responses = new ArrayList<>();
-        for (Reservation r : reservations) {
-            ReservationResponse reservationResponse = new ReservationResponse();
-            BeanUtils.copyProperties(r, reservationResponse);
-            reservationResponse.setEmployee(employeeSvc.getByIdResponse(r.getEmployee().getId()));
-            if (r.getPreferences() != null) {
-                for (Preference p : r.getPreferences()) {
-                    reservationResponse.getPreferences().add(p);
-                    reservationResponse.setTrip(getTripResponse(r.getTrip()));
-                }
-                responses.add(reservationResponse);
-            }
-        }
+        List<ReservationResponse> responses = mapper.toReservationResponseList(reservationRepo.findByEmployeeOrderByRequestDateDesc(e));
+
         return responses;
     }
 
@@ -161,63 +136,33 @@ public class ReservationSvc {
         Preference p = preferenceSvc.create(pCreate);
         r.getPreferences().add(p);
         r = save(r);
-        ReservationResponse response = new ReservationResponse();
-        BeanUtils.copyProperties(r, response);
-        response.setEmployee(employeeSvc.getByIdResponse(r.getEmployee().getId()));
-        response.setTrip(getTripResponse(r.getTrip()));
+        ReservationResponse response = mapper.toReservationResponse(r);
+
         return response;
     }
 
     public List<ReservationResponse> findByTrip(Long id) {
         Trip t = tripSvc.getById(id);
-        List<Reservation> r = reservationRepo.findFirstByTrip(t);
-        List<ReservationResponse> response = new ArrayList<>();
-        for (Reservation reservation : r) {
-            ReservationResponse reservationResponse = new ReservationResponse();
-            BeanUtils.copyProperties(reservation, reservationResponse);
-            reservationResponse.setEmployee(employeeSvc.getByIdResponse(reservation.getEmployee().getId()));
-            reservationResponse.setTrip(getTripResponse(reservation.getTrip()));
-            response.add(reservationResponse);
-        }
+        List<ReservationResponse> response = mapper.toReservationResponseList(reservationRepo.findFirstByTrip(t));
+
         return response;
     }
 
     public List<ReservationResponse> findByDate(LocalDate date) {
-        List<Reservation> r = reservationRepo.findAllByDate(date);
-        List<ReservationResponse> response = new ArrayList<>();
-        for (Reservation reservation : r) {
-            ReservationResponse reservationResponse = new ReservationResponse();
-            BeanUtils.copyProperties(reservation, reservationResponse);
-            reservationResponse.setEmployee(employeeSvc.getByIdResponse(reservation.getEmployee().getId()));
-            reservationResponse.setTrip(getTripResponse(reservation.getTrip()));
-            response.add(reservationResponse);
-        }
+        List<ReservationResponse> response = mapper.toReservationResponseList(reservationRepo.findAllByDate(date));
         return response;
     }
 
     public List<ReservationResponse> findByDestination(String destination) {
-        List<Reservation> r = reservationRepo.findAllByDestination(destination);
-        List<ReservationResponse> response = new ArrayList<>();
-        for (Reservation reservation : r) {
-            ReservationResponse reservationResponse = new ReservationResponse();
-            BeanUtils.copyProperties(reservation, reservationResponse);
-            reservationResponse.setEmployee(employeeSvc.getByIdResponse(reservation.getEmployee().getId()));
-            reservationResponse.setTrip(getTripResponse(reservation.getTrip()));
-            response.add(reservationResponse);
-        }
+        List<ReservationResponse> response = mapper.toReservationResponseList(reservationRepo.findAllByDestination(destination));
+
         return response;
     }
 
     public List<ReservationResponse> findByDestinationAndDate(String destination, LocalDate date) {
         List<Reservation> r = reservationRepo.findAllByDestinationAndDate(destination, date);
-        List<ReservationResponse> response = new ArrayList<>();
-        for (Reservation reservation : r) {
-            ReservationResponse reservationResponse = new ReservationResponse();
-            BeanUtils.copyProperties(reservation, reservationResponse);
-            reservationResponse.setEmployee(employeeSvc.getByIdResponse(reservation.getEmployee().getId()));
-            reservationResponse.setTrip(getTripResponse(reservation.getTrip()));
-            response.add(reservationResponse);
-        }
+        List<ReservationResponse> response = mapper.toReservationResponseList(reservationRepo.findAllByDestinationAndDate(destination, date));
+
         return response;
     }
 }

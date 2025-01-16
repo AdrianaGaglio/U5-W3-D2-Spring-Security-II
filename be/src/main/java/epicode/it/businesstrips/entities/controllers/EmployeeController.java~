@@ -41,13 +41,11 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         return new ResponseEntity<>(employeeSvc.delete(id), HttpStatus.NO_CONTENT);
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EmployeeResponse> create(@RequestBody EmployeeCreateRequest request) {
         return new ResponseEntity<>(employeeSvc.create(request), HttpStatus.CREATED);
     }

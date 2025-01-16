@@ -21,12 +21,9 @@ public class Employee {
     @Column(name="last_name" , nullable = false)
     private String lastName;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
     private String image;
 
     @OneToOne
-    @JoinColumn(name = "user_id", unique = true)
+    @JoinColumn(name = "user_id",  unique = true)
     private AppUser appUser;
 }
