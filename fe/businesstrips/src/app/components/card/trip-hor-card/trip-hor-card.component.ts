@@ -7,6 +7,7 @@ import { iTrip } from '../../../interfaces/itrip';
 import { TripService } from '../../../services/trip.service';
 import { environment } from '../../../../environments/environment.development';
 import { ResModalComponent } from '../../modal/res-modal/res-modal.component';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-trip-hor-card',
@@ -14,12 +15,28 @@ import { ResModalComponent } from '../../modal/res-modal/res-modal.component';
   styleUrl: './trip-hor-card.component.scss',
 })
 export class TripHorCardComponent {
-  constructor(private tripSvc: TripService, private modalService: NgbModal) {}
+  constructor(
+    private tripSvc: TripService,
+    private modalService: NgbModal,
+    private authSvc: AuthService
+  ) {}
   message!: string;
   editStatus: boolean = false;
   tripStatus: string[] = environment.tripStatus;
+  isAdmin: boolean = false;
+  employeeId!: number;
 
   @Input() trip!: iTrip;
+
+  ngOnInit() {
+    const json = localStorage.getItem('authData');
+    if (json) {
+      this.employeeId = JSON.parse(json).user.id;
+    }
+    if (this.authSvc.decodeRole() === 'ADMIN') {
+      this.isAdmin = true;
+    }
+  }
 
   delete(trip: iTrip) {
     this.tripSvc
@@ -37,6 +54,7 @@ export class TripHorCardComponent {
       centered: true,
     });
     modalRef.componentInstance.trip = trip;
+    modalRef.componentInstance.employeeId = this.employeeId;
   }
 
   enableChange() {

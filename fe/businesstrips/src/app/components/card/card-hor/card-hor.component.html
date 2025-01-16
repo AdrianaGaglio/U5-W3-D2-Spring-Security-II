@@ -19,6 +19,8 @@
     <button class="btn btn-warning text-light" (click)="openModal(employee)">
       Change info
     </button>
-    <button class="btn btn-danger" (click)="delete(employee)">Delete</button>
+    <button class="btn btn-danger" (click)="delete(employee)" *ngIf="isAdmin">
+      Delete
+    </button>
   </div>
 </div>

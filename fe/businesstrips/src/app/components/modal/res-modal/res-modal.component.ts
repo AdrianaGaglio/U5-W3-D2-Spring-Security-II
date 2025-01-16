@@ -37,7 +37,7 @@ export class ResModalComponent {
 
   tripPreferences: string[] = environment.tripPreferences;
 
-  employeeId: number = 0;
+  @Input() employeeId: number = 0;
 
   newPreferences: Partial<iPreference>[] = [];
 

@@ -54,19 +54,25 @@
   </div>
   <div class="d-flex flex-column justify-content-evenly p-1">
     <button
-      *ngIf="!isTrip"
+      *ngIf="!isTrip && isAdmin"
       class="btn btn-primary"
       (click)="openModal(reservation)"
     >
       Manage reservation
     </button>
     <button
-      *ngIf="isTrip"
+      *ngIf="isTrip && isAdmin"
       class="btn btn-primary"
       (click)="openModalWithTrip(reservation, trip)"
     >
       Manage reservation
     </button>
-    <button class="btn btn-danger" (click)="delete(reservation)">Delete</button>
+    <button
+      class="btn btn-danger"
+      (click)="delete(reservation)"
+      *ngIf="isAdmin"
+    >
+      Delete
+    </button>
   </div>
 </div>

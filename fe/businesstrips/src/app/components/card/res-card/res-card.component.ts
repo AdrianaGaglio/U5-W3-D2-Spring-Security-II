@@ -6,6 +6,7 @@ import { IReservationresponse } from '../../../interfaces/ireservationresponse';
 import { ResModalComponent } from '../../modal/res-modal/res-modal.component';
 import { iTrip } from '../../../interfaces/itrip';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-res-card',
@@ -16,14 +17,19 @@ export class ResCardComponent {
   constructor(
     private reservationSvc: ReservationService,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private authSvc: AuthService
   ) {}
 
   @Input() reservation!: iReservation;
   @Input() trip!: iTrip;
   isTrip: boolean = false;
+  isAdmin: boolean = false;
 
   ngOnInit() {
+    if (this.authSvc.decodeRole() === 'ADMIN') {
+      this.isAdmin = true;
+    }
     if (this.router.url.startsWith('/trip')) {
       this.isTrip = true;
     }

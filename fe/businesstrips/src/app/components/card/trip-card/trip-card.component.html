@@ -37,10 +37,14 @@
       <a class="btn btn-primary" [routerLink]="['/trip', trip.id]">
         <ng-icon name="bootstrapSearch"></ng-icon>
       </a>
-      <button class="btn btn-warning text-light" (click)="openModal(trip)">
+      <button
+        class="btn btn-warning text-light"
+        (click)="openModal(trip)"
+        *ngIf="isAdmin"
+      >
         <ng-icon name="bootstrapPencil"></ng-icon>
       </button>
-      <button class="btn btn-danger">
+      <button class="btn btn-danger" *ngIf="isAdmin">
         <ng-icon name="bootstrapTrash" (click)="delete(trip)"></ng-icon>
       </button>
     </div>

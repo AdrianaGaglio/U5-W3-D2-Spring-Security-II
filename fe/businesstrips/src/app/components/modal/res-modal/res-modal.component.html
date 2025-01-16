@@ -28,7 +28,7 @@
         name="employeeId"
         [(ngModel)]="employeeId"
         id="employeeId"
-        [disabled]="reservation.id ? true : false"
+        [disabled]="reservation.id || employeeId ? true : false"
       >
         <option value="">-- select employee --</option>
         <option [value]="employee.id" *ngFor="let employee of employees">

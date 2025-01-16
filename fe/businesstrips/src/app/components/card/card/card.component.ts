@@ -3,6 +3,7 @@ import { iEmployee } from '../../../interfaces/iemployee';
 import { EmployeeService } from '../../../services/employee.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../../modal/modal.component';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-card',
@@ -12,11 +13,19 @@ import { ModalComponent } from '../../modal/modal.component';
 export class CardComponent {
   constructor(
     private employeeSvc: EmployeeService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private authSvc: AuthService
   ) {}
   message!: string;
+  isAdmin: boolean = false;
 
   @Input() employee!: iEmployee;
+
+  ngOnInit() {
+    if (this.authSvc.decodeRole() === 'ADMIN') {
+      this.isAdmin = true;
+    }
+  }
 
   delete(employee: iEmployee) {
     this.employeeSvc

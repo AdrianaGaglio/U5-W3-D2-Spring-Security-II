@@ -38,9 +38,15 @@
     <button (click)="openModalRes(trip)" class="btn btn-primary">
       Add reservation
     </button>
-    <button class="btn btn-warning text-light" (click)="openModal(trip)">
+    <button
+      class="btn btn-warning text-light"
+      (click)="openModal(trip)"
+      *ngIf="isAdmin"
+    >
       Edit trip
     </button>
-    <button class="btn btn-danger" (click)="delete(trip)">Delete trip</button>
+    <button class="btn btn-danger" (click)="delete(trip)" *ngIf="isAdmin">
+      Delete trip
+    </button>
   </div>
 </div>

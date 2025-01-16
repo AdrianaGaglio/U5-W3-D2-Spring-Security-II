@@ -15,7 +15,7 @@
       <button class="btn btn-warning text-light" (click)="openModal(employee)">
         <ng-icon name="bootstrapPencil"></ng-icon>
       </button>
-      <button class="btn btn-danger" (click)="delete(employee)">
+      <button class="btn btn-danger" (click)="delete(employee)" *ngIf="isAdmin">
         <ng-icon name="bootstrapTrash"></ng-icon>
       </button>
     </div>

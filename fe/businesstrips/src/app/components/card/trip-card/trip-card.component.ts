@@ -6,6 +6,7 @@ import { ModalComponent } from '../../modal/modal.component';
 import { iTrip } from '../../../interfaces/itrip';
 import { TripService } from '../../../services/trip.service';
 import { environment } from '../../../../environments/environment.development';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-trip-card',
@@ -13,12 +14,23 @@ import { environment } from '../../../../environments/environment.development';
   styleUrl: './trip-card.component.scss',
 })
 export class TripCardComponent {
-  constructor(private tripSvc: TripService, private modalService: NgbModal) {}
+  constructor(
+    private tripSvc: TripService,
+    private modalService: NgbModal,
+    private authSvc: AuthService
+  ) {}
   message!: string;
   editStatus: boolean = false;
   tripStatus: string[] = environment.tripStatus;
 
   @Input() trip!: iTrip;
+  isAdmin: boolean = false;
+
+  ngOnInit() {
+    if (this.authSvc.decodeRole() === 'ADMIN') {
+      this.isAdmin = true;
+    }
+  }
 
   delete(trip: iTrip) {
     this.tripSvc
