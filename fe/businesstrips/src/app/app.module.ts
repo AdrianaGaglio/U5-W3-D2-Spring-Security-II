@@ -5,10 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarModule } from './components/sidebar/sidebar.module';
-import { provideHttpClient } from '@angular/common/http';
-import { CardComponent } from './components/card/card/card.component';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from './components/modal/modal.module';
+import { TokenInterceptor } from './auth/token.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +24,10 @@ import { ModalModule } from './components/modal/modal.module';
     FormsModule,
     ModalModule,
   ],
-  providers: [provideHttpClient()],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

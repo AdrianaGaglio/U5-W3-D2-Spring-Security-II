@@ -12,7 +12,9 @@ import { iRegisterrequest } from '../interfaces/iregisterrequest';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.restoreUser();
+  }
 
   url: string = environment.authUrl;
 
@@ -49,7 +51,13 @@ export class AuthService {
 
         this.autoLogout(expDate);
       }),
-      tap((res) => this.router.navigate(['/']))
+      tap((res) => {
+        if (this.decodeRole() === 'ADMIN') {
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/employee', res.user.id]);
+        }
+      })
     );
   }
 
@@ -73,5 +81,13 @@ export class AuthService {
     }
 
     this.authSubject$.next(authData);
+  }
+
+  decodeRole() {
+    const json = localStorage.getItem('authData');
+    if (!json) return;
+    const { token } = JSON.parse(json);
+    if (!token) return;
+    return this.jwtHelper.decodeToken(token).roles[0].slice(5);
   }
 }

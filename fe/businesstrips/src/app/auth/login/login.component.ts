@@ -59,7 +59,6 @@ export class LoginComponent {
 
       this.authSvc.login(request).subscribe({
         next: (res) => {
-          console.log(res.user);
           this.loginForm.reset();
         },
         error: (err) => {

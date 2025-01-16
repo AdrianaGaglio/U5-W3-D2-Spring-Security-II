@@ -113,7 +113,7 @@ public class AppUserSvc {
 
             EmployeeResponse user = new EmployeeResponse();
 
-            if ((!request.getUsername().equals("admin") || !request.getUsername().equals("user")) && request.getEmail() != null) {
+            if ((!request.getUsername().equals("admin") && !request.getUsername().equals("user")) || request.getEmail() != null) {
                 String text = request.getUsername() != null ? request.getUsername() : request.getEmail();
                 user = employeeSvc.findByFirstNameOrLastNameOrUsername(text).getFirst();
             }
@@ -122,7 +122,7 @@ public class AppUserSvc {
             // Recupera i dettagli dell'utente autenticato.
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             // Genera un token JWT per l'utente autenticato.
-            if ((!request.getUsername().equals("admin") || !request.getUsername().equals("user")) && request.getEmail() != null) {
+            if ((!request.getUsername().equals("admin") && !request.getUsername().equals("user")) || request.getEmail() != null) {
                 return new AuthResponse(jwtTokenUtil.generateToken(userDetails), user);
             } else {
                 return new AuthResponse(jwtTokenUtil.generateToken(userDetails));
