@@ -51,7 +51,7 @@ public class TripController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<Trip> update(@PathVariable Long id, @RequestParam String status) {
+    public ResponseEntity<TripWithReservationResponse> update(@PathVariable Long id, @RequestParam String status) {
         return ResponseEntity.ok(tripSvc.updateStatus(id, status));
     }
 
