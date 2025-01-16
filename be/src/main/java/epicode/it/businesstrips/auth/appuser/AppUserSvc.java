@@ -50,7 +50,7 @@ public class AppUserSvc {
             throw new EntityExistsException("Username già in uso"); // Lancia un'eccezione se l'username è già in uso
         }
 
-        if (request.getEmployeeRequest()!= null && findByEmail(request.getEmployeeRequest().getEmail()) != null)
+        if (request.getEmployeeRequest() != null && findByEmail(request.getEmployeeRequest().getEmail()) != null)
             throw new EntityExistsException("Email already exists");
 
         // Crea una nuova istanza di AppUser e imposta i suoi campi.
@@ -61,10 +61,10 @@ public class AppUserSvc {
         appUser.setRoles(roles); // Imposta i ruoli per l'utente.
 
         // Salva l'utente nel database e restituisce l'oggetto salvato.
-        appUser=appUserRepo.save(appUser);
+        appUser = appUserRepo.save(appUser);
 
 
-        if(request.getEmployeeRequest() != null) {
+        if (request.getEmployeeRequest() != null) {
             EmployeeCreateRequest requestEmployee = new EmployeeCreateRequest();
             BeanUtils.copyProperties(request.getEmployeeRequest(), requestEmployee);
             requestEmployee.setUserId(appUser.getId());
@@ -97,27 +97,37 @@ public class AppUserSvc {
     public AuthResponse authenticateUser(@Valid LoginRequest request) {
         try {
 
-            if ((request.getUsername() == null || request.getUsername().isEmpty()) && request.getEmail() != null) {
+            if (request.getEmail() != null) {
                 AppUser found = findByEmail(request.getEmail());
                 if (found == null) throw new EntityNotFoundException("User not found");
                 request.setUsername(found.getUsername());
             }
 
-            if (request.getUsername() == null || request.getUsername().isEmpty()) throw new EntityNotFoundException("User not found");
+            if (request.getUsername() != null && findByUsername(request.getUsername()) == null)
+                throw new EntityNotFoundException("User not found");
 
             // Crea un token di autenticazione e prova ad autenticare l'utente.
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
 
-            String text = request.getUsername() != null ? request.getUsername() : request.getEmail();
-            EmployeeResponse user = employeeSvc.findByFirstNameOrLastNameOrUsername(text).getFirst();
+            EmployeeResponse user = new EmployeeResponse();
+
+            if ((!request.getUsername().equals("admin") || !request.getUsername().equals("user")) && request.getEmail() != null) {
+                String text = request.getUsername() != null ? request.getUsername() : request.getEmail();
+                user = employeeSvc.findByFirstNameOrLastNameOrUsername(text).getFirst();
+            }
+
 
             // Recupera i dettagli dell'utente autenticato.
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             // Genera un token JWT per l'utente autenticato.
+            if ((!request.getUsername().equals("admin") || !request.getUsername().equals("user")) && request.getEmail() != null) {
+                return new AuthResponse(jwtTokenUtil.generateToken(userDetails), user);
+            } else {
+                return new AuthResponse(jwtTokenUtil.generateToken(userDetails));
+            }
 
-            return new AuthResponse(jwtTokenUtil.generateToken(userDetails), user);
         } catch (AuthenticationException e) {
             // Lancia un'eccezione di sicurezza se l'autenticazione fallisce.
             throw new SecurityException("Credenziali non valide", e);

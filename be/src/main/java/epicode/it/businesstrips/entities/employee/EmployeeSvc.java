@@ -82,7 +82,7 @@ public class EmployeeSvc {
         Employee e = new Employee();
         e.setFirstName(request.getFirstName());
         e.setLastName(request.getLastName());
-        e.setImage(request.getImage());
+        e.setImage(request.getImage() != null || !request.getImage().isEmpty() ? request.getImage() : "https://ui-avatars.com/api/?name=" + e.getFirstName() + "+" + e.getLastName());
         e.setEmail(request.getEmail().toLowerCase());
         if (request.getUserId() != null) {
             e.setAppUser(appUserRepo.findById(request.getUserId()).orElse(null));
@@ -123,7 +123,7 @@ public class EmployeeSvc {
     }
 
     public List<EmployeeResponse> findByFirstNameOrLastNameOrUsername(String name) {
-        List<Employee> employees = employeeRepo.findByFirstNameOrLastNameOrUsername(name.toLowerCase());
+        List<Employee> employees = employeeRepo.findFirstByFirstNameOrLastNameOrUsername(name.toLowerCase());
         List<EmployeeResponse> response = new ArrayList<>();
         for (Employee e : employees) {
             EmployeeResponse employeeResponse = new EmployeeResponse();

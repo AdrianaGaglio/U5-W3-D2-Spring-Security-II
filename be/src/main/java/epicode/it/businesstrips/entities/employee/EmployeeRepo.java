@@ -17,6 +17,6 @@ public interface EmployeeRepo extends JpaRepository<Employee, Long> {
     public Employee findFirstByUsername(@Param("username") String username);
 
     @Query("SELECT e FROM Employee e WHERE LOWER(e.firstName) LIKE CONCAT(:name, '%') OR LOWER(e.lastName) LIKE CONCAT(:name, '%') OR LOWER(e.appUser.username) LIKE CONCAT(:name, '%')")
-    public List<Employee> findByFirstNameOrLastNameOrUsername(@Param("name") String name);
+    public List<Employee> findFirstByFirstNameOrLastNameOrUsername(@Param("name") String name);
 
 }
